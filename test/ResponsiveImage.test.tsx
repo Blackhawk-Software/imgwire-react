@@ -1,5 +1,5 @@
-import { render } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { ImgwireProvider } from "../src/provider/ImgwireProvider.tsx";
 import { ResponsiveImage } from "../src/components/ResponsiveImage.tsx";
 
@@ -39,6 +39,10 @@ vi.mock("@imgwire/js", () => {
 });
 
 describe("<ResponsiveImage />", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it("builds srcset and sizes from breakpoints", () => {
     const { getByRole } = render(
       <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
@@ -63,5 +67,34 @@ describe("<ResponsiveImage />", () => {
     expect(image.getAttribute("srcset")).toContain(
       "https://cdn.imgwire.dev/example.jpg?width=1024&dpr=2 2048w"
     );
+  });
+
+  it("uses default breakpoints and dprs when none are provided", () => {
+    const { getByRole } = render(
+      <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
+        <ResponsiveImage
+          alt="Responsive"
+          url="https://cdn.imgwire.dev/example.jpg"
+        />
+      </ImgwireProvider>
+    );
+
+    const image = getByRole("img");
+    expect(image.getAttribute("src")).toBe(
+      "https://cdn.imgwire.dev/example.jpg?width=320&dpr=1"
+    );
+    expect(image.getAttribute("sizes")).toBe(
+      "(min-width: 1440px) 1440px, (min-width: 1024px) 1024px, (min-width: 640px) 640px, 320px"
+    );
+  });
+
+  it("throws when neither id nor url is provided", () => {
+    expect(() =>
+      render(
+        <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
+          <ResponsiveImage alt="Broken" />
+        </ImgwireProvider>
+      )
+    ).toThrow("<ResponsiveImage /> requires either an id or a url.");
   });
 });

@@ -86,4 +86,56 @@ describe("<Image />", () => {
 
     expect(fetchImage).toHaveBeenCalledTimes(1);
   });
+
+  it("uses a custom loader when provided", async () => {
+    const loader = vi.fn().mockResolvedValue({
+      url: "https://cdn.imgwire.dev/from-loader.jpg"
+    });
+
+    const view = render(
+      <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
+        <Image alt="Loaded" id="img_123" loader={loader} />
+      </ImgwireProvider>
+    );
+
+    expect((await view.findByRole("img")).getAttribute("src")).toBe(
+      "https://cdn.imgwire.dev/from-loader.jpg"
+    );
+    expect(loader).toHaveBeenCalledWith("img_123");
+    expect(fetchImage).not.toHaveBeenCalled();
+  });
+
+  it("renders nothing while an id-backed image is still resolving", () => {
+    fetchImage.mockImplementation(() => new Promise(() => undefined));
+
+    const view = render(
+      <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
+        <Image alt="Pending" id="img_123" />
+      </ImgwireProvider>
+    );
+
+    expect(view.queryByRole("img")).toBeNull();
+  });
+
+  it("throws when neither id nor url is provided", () => {
+    expect(() =>
+      render(
+        <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
+          <Image alt="Invalid" />
+        </ImgwireProvider>
+      )
+    ).toThrow("<Image /> requires either an id or a url.");
+  });
+
+  it("throws when image resolution fails", () => {
+    fetchImage.mockRejectedValue(new Error("resolve failed"));
+
+    expect(() =>
+      render(
+        <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
+          <Image alt="Broken" id="img_123" />
+        </ImgwireProvider>
+      )
+    ).not.toThrow();
+  });
 });
