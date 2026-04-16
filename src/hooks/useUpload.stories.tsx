@@ -11,39 +11,50 @@ import { useUpload } from "./useUpload.ts";
 type UploadStoryArgs = StoryBaseUrlArgs & {
   apiKey: string;
   buttonLabel: string;
-  fileName: string;
-  fileContents: string;
-  fileType: string;
 };
 
 function UploadStory({
-  buttonLabel,
-  fileName,
-  fileContents,
-  fileType
+  buttonLabel
 }: Omit<UploadStoryArgs, "apiKey" | "environment">) {
   const [upload, progress] = useUpload();
   const client = useClient();
   const [status, setStatus] = useState("idle");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   return (
     <div>
+      <input
+        accept="image/*"
+        onChange={(event) => {
+          setSelectedFile(event.target.files?.[0] ?? null);
+          setStatus("idle");
+        }}
+        type="file"
+      />
       <button
         onClick={async () => {
+          if (!selectedFile) {
+            setStatus("select an image");
+            return;
+          }
+
           setStatus("uploading");
-          const file = new File([fileContents], fileName, {
-            type: fileType
-          });
-          await upload(file).catch(() => undefined);
-          setStatus("finished");
+          await upload(selectedFile)
+            .then(() => {
+              setStatus("finished");
+            })
+            .catch(() => {
+              setStatus("failed");
+            });
         }}
+        disabled={!selectedFile}
         type="button"
       >
         {buttonLabel}
       </button>
       <p>Client API key: {client.options.apiKey}</p>
-      <p>Upload file: {fileName}</p>
-      <p>Upload type: {fileType}</p>
+      <p>Selected file: {selectedFile?.name ?? "none"}</p>
+      <p>Selected type: {selectedFile?.type ?? "n/a"}</p>
       <p>Status: {status}</p>
       <p>Loaded: {progress.loaded}</p>
       <p>Percent: {progress.percent ?? "n/a"}</p>
@@ -54,14 +65,7 @@ function UploadStory({
 const meta = {
   title: "Hooks/useUpload",
   component: UploadStory,
-  render: ({
-    apiKey,
-    environment,
-    buttonLabel,
-    fileName,
-    fileContents,
-    fileType
-  }) => (
+  render: ({ apiKey, environment, buttonLabel }) => (
     <ImgwireProvider
       config={{
         apiKey,
@@ -69,21 +73,13 @@ const meta = {
         fetch
       }}
     >
-      <UploadStory
-        buttonLabel={buttonLabel}
-        fileContents={fileContents}
-        fileName={fileName}
-        fileType={fileType}
-      />
+      <UploadStory buttonLabel={buttonLabel} />
     </ImgwireProvider>
   ),
   args: {
     apiKey: "ck_storybook",
     environment: "production",
-    buttonLabel: "Upload",
-    fileName: "example.txt",
-    fileContents: "hello",
-    fileType: "text/plain"
+    buttonLabel: "Upload selected image"
   },
   argTypes: {
     apiKey: {
@@ -94,15 +90,6 @@ const meta = {
       options: ["production", "local"]
     },
     buttonLabel: {
-      control: "text"
-    },
-    fileName: {
-      control: "text"
-    },
-    fileContents: {
-      control: "text"
-    },
-    fileType: {
       control: "text"
     }
   }

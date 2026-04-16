@@ -4,6 +4,6 @@ export type StoryBaseUrlArgs = {
 
 export function buildStoryBaseUrl({ environment }: StoryBaseUrlArgs) {
   return environment === "local"
-    ? "https://imgwire.ngrok.io"
+    ? "http://localhost:8000"
     : "https://api.imgwire.dev";
 }
