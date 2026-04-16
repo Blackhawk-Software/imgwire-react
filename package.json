@@ -27,6 +27,8 @@
     "build": "tsup",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "release:prepare": "node scripts/release.mjs prepare",
+    "release:verify-tag": "node scripts/release.mjs verify-tag",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "ci": "yarn typecheck && yarn test && yarn build && yarn build-storybook"
