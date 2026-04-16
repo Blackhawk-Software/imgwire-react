@@ -56,7 +56,14 @@ export function ResponsiveImage(props: ResponsiveImageProps) {
     return null;
   }
 
-  const breakpoints = Object.values(props.breakpoints ?? DEFAULT_BREAKPOINTS)
+  const breakpointEntries = Object.values(
+    props.breakpoints ?? DEFAULT_BREAKPOINTS
+  );
+  const breakpoints = (
+    breakpointEntries.length > 0
+      ? breakpointEntries
+      : Object.values(DEFAULT_BREAKPOINTS)
+  )
     .slice()
     .sort((left, right) => left.minWidth - right.minWidth);
   const smallestBreakpoint = breakpoints[0];
@@ -118,7 +125,7 @@ function mergeTransforms(
   breakpoint: ResponsiveBreakpoint,
   dpr: number
 ): ImageUrlOptions {
-  return {
+  return compactTransformOptions({
     ...base,
     width: breakpoint.width ?? base.width,
     height: breakpoint.height ?? base.height,
@@ -127,5 +134,11 @@ function mergeTransforms(
     quality: breakpoint.quality ?? base.quality,
     format: breakpoint.format ?? base.format,
     dpr
-  };
+  });
+}
+
+function compactTransformOptions(options: ImageUrlOptions): ImageUrlOptions {
+  return Object.fromEntries(
+    Object.entries(options).filter(([, value]) => value !== undefined)
+  ) as ImageUrlOptions;
 }
