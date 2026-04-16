@@ -6,6 +6,14 @@
   "packageManager": "yarn@1.22.22",
   "type": "module",
   "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blackhawk-Software/imgwire-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Blackhawk-Software/imgwire-react/issues"
+  },
+  "homepage": "https://github.com/Blackhawk-Software/imgwire-react#readme",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
