@@ -46,7 +46,7 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@imgwire/js": "^0.1.5"
+    "@imgwire/js": "^0.1.6"
   },
   "devDependencies": {
     "@storybook/react": "^10.3.5",
