@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import type { ComponentProps } from "react";
 import { ImgwireProvider } from "../provider/ImgwireProvider.tsx";
-import { type ImageProps, Image } from "./Image.tsx";
+import { Image } from "./Image.tsx";
 
-type ImageStoryArgs = ImageProps & {
+type ImageStoryArgs = ComponentProps<typeof Image> & {
   apiKey: string;
   baseUrl?: string;
 };
@@ -18,11 +19,96 @@ const meta = {
   args: {
     apiKey: "ck_storybook",
     baseUrl: "https://api.imgwire.dev",
-    url: "https://cdn.imgwire.dev/example.jpg",
-    alt: "Example"
+    url: "https://cdn.conveyer.dev/5f81fbbb-e95b-4b2d-96d6-73e501d5ce64.png",
+    alt: "Example",
+    style: {
+      display: "block",
+      maxWidth: "100%"
+    }
   },
   argTypes: {
-    loader: {
+    apiKey: {
+      control: "text"
+    },
+    baseUrl: {
+      control: "text"
+    },
+    style: {
+      control: "object"
+    },
+    background: {
+      control: "color"
+    },
+    bg: {
+      control: false
+    },
+    bl: {
+      control: false
+    },
+    c: {
+      control: false
+    },
+    el: {
+      control: false
+    },
+    ex: {
+      control: false
+    },
+    extend_ar: {
+      control: false
+    },
+    exar: {
+      control: false
+    },
+    fl: {
+      control: false
+    },
+    f: {
+      control: false
+    },
+    ext: {
+      control: false
+    },
+    g: {
+      control: false
+    },
+    h: {
+      control: false
+    },
+    kcr: {
+      control: false
+    },
+    mh: {
+      control: false
+    },
+    mw: {
+      control: false
+    },
+    pd: {
+      control: false
+    },
+    pix: {
+      control: false
+    },
+    q: {
+      control: false
+    },
+    rot: {
+      control: false
+    },
+    sh: {
+      control: false
+    },
+    scp: {
+      control: false
+    },
+    sm: {
+      control: false
+    },
+    w: {
+      control: false
+    },
+    z: {
       control: false
     }
   }
@@ -36,7 +122,8 @@ export const DirectUrl: Story = {};
 
 export const Transformed: Story = {
   args: {
-    width: 800,
+    width: 150,
+    rotate: 90,
     format: "webp",
     quality: 80
   }
@@ -44,10 +131,8 @@ export const Transformed: Story = {
 
 export const WithLoader: Story = {
   args: {
-    id: "img_123",
+    id: "6e8963fa-72c9-4544-a47c-e8be72ce3e23",
     url: undefined,
-    loader: async () => ({
-      url: "https://cdn.imgwire.dev/example.jpg"
-    })
+    width: 640
   }
 };

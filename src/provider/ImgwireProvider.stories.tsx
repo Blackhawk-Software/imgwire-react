@@ -5,6 +5,8 @@ import { ImgwireProvider } from "./ImgwireProvider.tsx";
 type ProviderStoryArgs = {
   apiKey: string;
   baseUrl?: string;
+  fallbackApiKey: string;
+  fallbackBaseUrl?: string;
 };
 
 function WithProviderExample() {
@@ -12,8 +14,14 @@ function WithProviderExample() {
   return <code>{client.options.apiKey}</code>;
 }
 
-function WithoutProviderExample() {
-  const client = useClient({ apiKey: "ck_fallback", fetch });
+function WithoutProviderExample({
+  apiKey,
+  baseUrl
+}: {
+  apiKey: string;
+  baseUrl?: string;
+}) {
+  const client = useClient({ apiKey, baseUrl, fetch });
   return <code>{client.options.apiKey}</code>;
 }
 
@@ -21,7 +29,23 @@ const meta = {
   title: "Provider/ImgwireProvider",
   args: {
     apiKey: "ck_provider",
-    baseUrl: "https://api.imgwire.dev"
+    baseUrl: "https://api.imgwire.dev",
+    fallbackApiKey: "ck_fallback",
+    fallbackBaseUrl: "https://api.imgwire.dev"
+  },
+  argTypes: {
+    apiKey: {
+      control: "text"
+    },
+    baseUrl: {
+      control: "text"
+    },
+    fallbackApiKey: {
+      control: "text"
+    },
+    fallbackBaseUrl: {
+      control: "text"
+    }
   }
 } satisfies Meta<ProviderStoryArgs>;
 
@@ -40,5 +64,7 @@ export const WithProvider: ProviderStory = {
 
 export const WithoutProvider: ProviderStory = {
   args: {},
-  render: () => <WithoutProviderExample />
+  render: ({ fallbackApiKey, fallbackBaseUrl }) => (
+    <WithoutProviderExample apiKey={fallbackApiKey} baseUrl={fallbackBaseUrl} />
+  )
 };

@@ -19,19 +19,35 @@ const meta = {
       <ResponsiveImage {...args} />
     </ImgwireProvider>
   ),
-  argTypes: {
-    breakpoints: {
-      control: false
-    },
-    loader: {
-      control: false
-    }
-  },
   args: {
     apiKey: "ck_storybook",
     baseUrl: "https://api.imgwire.dev",
-    url: "https://cdn.imgwire.dev/example.jpg",
-    alt: "Responsive example"
+    url: "https://cdn.conveyer.dev/5f81fbbb-e95b-4b2d-96d6-73e501d5ce64.png",
+    alt: "Responsive example",
+    style: {
+      display: "block",
+      maxWidth: "100%"
+    }
+  },
+  argTypes: {
+    breakpoints: {
+      control: "object"
+    },
+    dpr: {
+      control: "object"
+    },
+    loader: {
+      control: false
+    },
+    apiKey: {
+      control: "text"
+    },
+    baseUrl: {
+      control: "text"
+    },
+    style: {
+      control: "object"
+    }
   }
 } satisfies Meta<ResponsiveImageStoryArgs>;
 
@@ -51,6 +67,14 @@ export const CustomBreakpoints: Story = {
       mobile: { minWidth: 0, width: 320, crop: "320:320:ce" },
       desktop: { minWidth: 1024, width: 1024, crop: "1024:576:ce" }
     }
+  }
+};
+
+export const WithLoader: Story = {
+  args: {
+    id: "09661334-1db6-45b0-82ee-59209a1be498",
+    url: undefined,
+    breakpoints: cloneBreakpoints(DEFAULT_BREAKPOINTS)
   }
 };
 
