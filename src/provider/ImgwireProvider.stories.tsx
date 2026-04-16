@@ -1,12 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useClient } from "../hooks/useClient.ts";
+import {
+  buildStoryBaseUrl,
+  type StoryBaseUrlArgs
+} from "../storybook/baseUrl.ts";
 import { ImgwireProvider } from "./ImgwireProvider.tsx";
 
-type ProviderStoryArgs = {
+type ProviderStoryArgs = StoryBaseUrlArgs & {
   apiKey: string;
-  baseUrl?: string;
   fallbackApiKey: string;
-  fallbackBaseUrl?: string;
+  fallbackEnvironment: "production" | "local";
 };
 
 function WithProviderExample() {
@@ -29,22 +32,24 @@ const meta = {
   title: "Provider/ImgwireProvider",
   args: {
     apiKey: "ck_provider",
-    baseUrl: "https://api.imgwire.dev",
+    environment: "production",
     fallbackApiKey: "ck_fallback",
-    fallbackBaseUrl: "https://api.imgwire.dev"
+    fallbackEnvironment: "production"
   },
   argTypes: {
     apiKey: {
       control: "text"
     },
-    baseUrl: {
-      control: "text"
+    environment: {
+      control: "inline-radio",
+      options: ["production", "local"]
     },
     fallbackApiKey: {
       control: "text"
     },
-    fallbackBaseUrl: {
-      control: "text"
+    fallbackEnvironment: {
+      control: "inline-radio",
+      options: ["production", "local"]
     }
   }
 } satisfies Meta<ProviderStoryArgs>;
@@ -55,8 +60,14 @@ type Story = StoryObj<typeof meta>;
 type ProviderStory = StoryObj<ProviderStoryArgs>;
 
 export const WithProvider: ProviderStory = {
-  render: ({ apiKey, baseUrl }) => (
-    <ImgwireProvider config={{ apiKey, baseUrl, fetch }}>
+  render: ({ apiKey, environment }) => (
+    <ImgwireProvider
+      config={{
+        apiKey,
+        baseUrl: buildStoryBaseUrl({ environment }),
+        fetch
+      }}
+    >
       <WithProviderExample />
     </ImgwireProvider>
   )
@@ -64,7 +75,10 @@ export const WithProvider: ProviderStory = {
 
 export const WithoutProvider: ProviderStory = {
   args: {},
-  render: ({ fallbackApiKey, fallbackBaseUrl }) => (
-    <WithoutProviderExample apiKey={fallbackApiKey} baseUrl={fallbackBaseUrl} />
+  render: ({ fallbackApiKey, fallbackEnvironment }) => (
+    <WithoutProviderExample
+      apiKey={fallbackApiKey}
+      baseUrl={buildStoryBaseUrl({ environment: fallbackEnvironment })}
+    />
   )
 };

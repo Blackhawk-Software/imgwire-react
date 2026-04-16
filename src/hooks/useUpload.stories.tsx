@@ -1,12 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { ImgwireProvider } from "../provider/ImgwireProvider.tsx";
+import {
+  buildStoryBaseUrl,
+  type StoryBaseUrlArgs
+} from "../storybook/baseUrl.ts";
 import { useClient } from "./useClient.ts";
 import { useUpload } from "./useUpload.ts";
 
-type UploadStoryArgs = {
+type UploadStoryArgs = StoryBaseUrlArgs & {
   apiKey: string;
-  baseUrl?: string;
   buttonLabel: string;
   fileName: string;
   fileContents: string;
@@ -18,7 +21,7 @@ function UploadStory({
   fileName,
   fileContents,
   fileType
-}: Omit<UploadStoryArgs, "apiKey" | "baseUrl">) {
+}: Omit<UploadStoryArgs, "apiKey" | "environment">) {
   const [upload, progress] = useUpload();
   const client = useClient();
   const [status, setStatus] = useState("idle");
@@ -53,13 +56,19 @@ const meta = {
   component: UploadStory,
   render: ({
     apiKey,
-    baseUrl,
+    environment,
     buttonLabel,
     fileName,
     fileContents,
     fileType
   }) => (
-    <ImgwireProvider config={{ apiKey, baseUrl, fetch }}>
+    <ImgwireProvider
+      config={{
+        apiKey,
+        baseUrl: buildStoryBaseUrl({ environment }),
+        fetch
+      }}
+    >
       <UploadStory
         buttonLabel={buttonLabel}
         fileContents={fileContents}
@@ -70,7 +79,7 @@ const meta = {
   ),
   args: {
     apiKey: "ck_storybook",
-    baseUrl: "https://api.imgwire.dev",
+    environment: "production",
     buttonLabel: "Upload",
     fileName: "example.txt",
     fileContents: "hello",
@@ -80,8 +89,9 @@ const meta = {
     apiKey: {
       control: "text"
     },
-    baseUrl: {
-      control: "text"
+    environment: {
+      control: "inline-radio",
+      options: ["production", "local"]
     },
     buttonLabel: {
       control: "text"

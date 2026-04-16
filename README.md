@@ -250,12 +250,12 @@ Breakpoints can override transformations such as crop, gravity, quality, and for
     mobile: {
       minWidth: 0,
       width: 320,
-      crop: "320:320:ce"
+      crop: "320:320:ce:0:0"
     },
     desktop: {
       minWidth: 1024,
       width: 1024,
-      crop: "1024:576:ce"
+      crop: "1024:576:ce:0:0"
     }
   }}
 />

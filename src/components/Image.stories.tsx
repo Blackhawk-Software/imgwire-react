@@ -1,24 +1,34 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { ComponentProps } from "react";
 import { ImgwireProvider } from "../provider/ImgwireProvider.tsx";
+import {
+  buildStoryBaseUrl,
+  type StoryBaseUrlArgs
+} from "../storybook/baseUrl.ts";
 import { Image } from "./Image.tsx";
 
-type ImageStoryArgs = ComponentProps<typeof Image> & {
-  apiKey: string;
-  baseUrl?: string;
-};
+type ImageStoryArgs = ComponentProps<typeof Image> &
+  StoryBaseUrlArgs & {
+    apiKey: string;
+  };
 
 const meta = {
   title: "Components/Image",
   component: Image,
-  render: ({ apiKey, baseUrl, ...args }) => (
-    <ImgwireProvider config={{ apiKey, baseUrl, fetch }}>
+  render: ({ apiKey, environment, ...args }) => (
+    <ImgwireProvider
+      config={{
+        apiKey,
+        baseUrl: buildStoryBaseUrl({ environment }),
+        fetch
+      }}
+    >
       <Image {...args} />
     </ImgwireProvider>
   ),
   args: {
     apiKey: "ck_storybook",
-    baseUrl: "https://api.imgwire.dev",
+    environment: "production",
     url: "https://cdn.conveyer.dev/5f81fbbb-e95b-4b2d-96d6-73e501d5ce64.png",
     alt: "Example",
     style: {
@@ -30,8 +40,9 @@ const meta = {
     apiKey: {
       control: "text"
     },
-    baseUrl: {
-      control: "text"
+    environment: {
+      control: "inline-radio",
+      options: ["production", "local"]
     },
     style: {
       control: "object"
