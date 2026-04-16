@@ -1,5 +1,9 @@
 # @imgwire/react
 
+[![npm version](https://img.shields.io/npm/v/%40imgwire%2Freact)](https://www.npmjs.com/package/@imgwire/react)
+[![CI](https://github.com/Blackhawk-Software/imgwire-react/actions/workflows/ci.yml/badge.svg)](https://github.com/Blackhawk-Software/imgwire-react/actions/workflows/ci.yml)
+[![Release](https://github.com/Blackhawk-Software/imgwire-react/actions/workflows/release.yml/badge.svg)](https://github.com/Blackhawk-Software/imgwire-react/actions/workflows/release.yml)
+
 `@imgwire/react` is the React SDK for imgwire. It gives you a thin, typed React layer on top of `@imgwire/js` so you can:
 
 - share a single imgwire client through context
