@@ -19,6 +19,7 @@
   "files": [
     "dist",
     ".storybook",
+    "LICENSE",
     "README.md"
   ],
   "scripts": {
