@@ -1,10 +1,6 @@
 import type { ImageUrlOptions } from "@imgwire/js";
 import { useClient } from "../hooks/useClient.ts";
-import type {
-  CropValue,
-  GravityValue,
-  OutputFormat
-} from "../types.ts";
+import type { CropValue, GravityValue, OutputFormat } from "../types.ts";
 import { buildImageUrl } from "../utils/buildImageUrl.ts";
 import { useResolvedImageSource } from "../utils/resolve-image-source.ts";
 import { type ImageProps, getImageTransformOptions } from "./Image.tsx";
@@ -20,7 +16,10 @@ export type ResponsiveBreakpoint = {
   format?: OutputFormat;
 };
 
-export type ResponsiveImageProps = Omit<ImageProps, "width" | "height" | "dpr"> & {
+export type ResponsiveImageProps = Omit<
+  ImageProps,
+  "width" | "height" | "dpr"
+> & {
   breakpoints?: Record<string, ResponsiveBreakpoint>;
   dpr?: number[];
 };

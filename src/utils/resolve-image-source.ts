@@ -61,7 +61,7 @@ export function useResolvedImageSource({
       error: null
     });
 
-    resolveCachedImageUrl(id, (loader ?? defaultLoader(client)))
+    resolveCachedImageUrl(id, loader ?? defaultLoader(client))
       .then((result) => {
         if (cancelled) {
           return;

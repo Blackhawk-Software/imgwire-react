@@ -8,10 +8,7 @@ export type ImgwireProviderProps = {
   children: ReactNode;
 };
 
-export function ImgwireProvider({
-  config,
-  children
-}: ImgwireProviderProps) {
+export function ImgwireProvider({ config, children }: ImgwireProviderProps) {
   const client = useMemo(
     () => new ImgwireClient(config),
     [

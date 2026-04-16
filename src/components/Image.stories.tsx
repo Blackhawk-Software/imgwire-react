@@ -1,24 +1,32 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import type { FC } from "react";
 import { ImgwireProvider } from "../provider/ImgwireProvider.tsx";
-import { Image } from "./Image.tsx";
+import { type ImageProps, Image } from "./Image.tsx";
+
+type ImageStoryArgs = ImageProps & {
+  apiKey: string;
+  baseUrl?: string;
+};
 
 const meta = {
   title: "Components/Image",
   component: Image,
-  render: (args) => <Image {...args} />,
-  decorators: [
-    (Story: FC) => (
-      <ImgwireProvider config={{ apiKey: "ck_storybook", fetch: fetch }}>
-        <Story />
-      </ImgwireProvider>
-    )
-  ],
+  render: ({ apiKey, baseUrl, ...args }) => (
+    <ImgwireProvider config={{ apiKey, baseUrl, fetch }}>
+      <Image {...args} />
+    </ImgwireProvider>
+  ),
   args: {
+    apiKey: "ck_storybook",
+    baseUrl: "https://api.imgwire.dev",
     url: "https://cdn.imgwire.dev/example.jpg",
     alt: "Example"
+  },
+  argTypes: {
+    loader: {
+      control: false
+    }
   }
-} satisfies Meta<typeof Image>;
+} satisfies Meta<ImageStoryArgs>;
 
 export default meta;
 
@@ -41,10 +49,5 @@ export const WithLoader: Story = {
     loader: async () => ({
       url: "https://cdn.imgwire.dev/example.jpg"
     })
-  },
-  argTypes: {
-    loader: {
-      control: false
-    }
   }
 };

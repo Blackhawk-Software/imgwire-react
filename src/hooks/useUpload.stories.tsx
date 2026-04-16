@@ -1,8 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import type { FC } from "react";
 import { useState } from "react";
 import { ImgwireProvider } from "../provider/ImgwireProvider.tsx";
 import { useUpload } from "./useUpload.ts";
+
+type UploadStoryArgs = {
+  apiKey: string;
+  baseUrl?: string;
+};
 
 function UploadStory() {
   const [upload, progress] = useUpload();
@@ -33,14 +37,16 @@ function UploadStory() {
 const meta = {
   title: "Hooks/useUpload",
   component: UploadStory,
-  decorators: [
-    (Story: FC) => (
-      <ImgwireProvider config={{ apiKey: "ck_storybook", fetch: fetch }}>
-        <Story />
-      </ImgwireProvider>
-    )
-  ]
-} satisfies Meta<typeof UploadStory>;
+  render: ({ apiKey, baseUrl }) => (
+    <ImgwireProvider config={{ apiKey, baseUrl, fetch }}>
+      <UploadStory />
+    </ImgwireProvider>
+  ),
+  args: {
+    apiKey: "ck_storybook",
+    baseUrl: "https://api.imgwire.dev"
+  }
+} satisfies Meta<UploadStoryArgs>;
 
 export default meta;
 

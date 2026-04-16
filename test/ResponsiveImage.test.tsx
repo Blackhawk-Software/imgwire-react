@@ -54,7 +54,9 @@ describe("<ResponsiveImage />", () => {
     );
 
     const image = getByRole("img");
-    expect(image.getAttribute("sizes")).toBe("(min-width: 1024px) 1024px, 320px");
+    expect(image.getAttribute("sizes")).toBe(
+      "(min-width: 1024px) 1024px, 320px"
+    );
     expect(image.getAttribute("srcset")).toContain(
       "https://cdn.imgwire.dev/example.jpg?width=320&dpr=1 320w"
     );

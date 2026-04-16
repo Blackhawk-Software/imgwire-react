@@ -22,6 +22,7 @@
     "README.md"
   ],
   "scripts": {
+    "format": "prettier --write .",
     "build": "tsup",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -47,6 +48,7 @@
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^4.7.0",
     "jsdom": "^26.1.0",
+    "prettier": "3.6.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "storybook": "^8.6.14",

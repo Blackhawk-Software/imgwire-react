@@ -50,7 +50,11 @@ describe("<Image />", () => {
   it("renders a direct url immediately", () => {
     const { getByRole } = render(
       <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
-        <Image alt="Example" url="https://cdn.imgwire.dev/example.jpg" width={400} />
+        <Image
+          alt="Example"
+          url="https://cdn.imgwire.dev/example.jpg"
+          width={400}
+        />
       </ImgwireProvider>
     );
 

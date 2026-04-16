@@ -1,0 +1,7 @@
+dist/
+node_modules/
+coverage/
+generated/
+openapi/raw.openapi.json
+openapi/sdk.openapi.json
+openapi/.sdk.openapi.generator.json

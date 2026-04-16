@@ -2,6 +2,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { useClient } from "../hooks/useClient.ts";
 import { ImgwireProvider } from "./ImgwireProvider.tsx";
 
+type ProviderStoryArgs = {
+  apiKey: string;
+  baseUrl?: string;
+};
+
 function WithProviderExample() {
   const client = useClient();
   return <code>{client.options.apiKey}</code>;
@@ -13,23 +18,27 @@ function WithoutProviderExample() {
 }
 
 const meta = {
-  title: "Provider/ImgwireProvider"
-} satisfies Meta;
+  title: "Provider/ImgwireProvider",
+  args: {
+    apiKey: "ck_provider",
+    baseUrl: "https://api.imgwire.dev"
+  }
+} satisfies Meta<ProviderStoryArgs>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+type ProviderStory = StoryObj<ProviderStoryArgs>;
 
-export const WithProvider: Story = {
-  args: {},
-  render: () => (
-    <ImgwireProvider config={{ apiKey: "ck_provider", fetch }}>
+export const WithProvider: ProviderStory = {
+  render: ({ apiKey, baseUrl }) => (
+    <ImgwireProvider config={{ apiKey, baseUrl, fetch }}>
       <WithProviderExample />
     </ImgwireProvider>
   )
 };
 
-export const WithoutProvider: Story = {
+export const WithoutProvider: ProviderStory = {
   args: {},
   render: () => <WithoutProviderExample />
 };
