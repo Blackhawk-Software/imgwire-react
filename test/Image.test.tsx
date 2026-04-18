@@ -52,20 +52,20 @@ describe("<Image />", () => {
       <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
         <Image
           alt="Example"
-          url="https://cdn.imgwire.dev/example.jpg"
+          url="https://cdn.imgwire.dev/example"
           width={400}
         />
       </ImgwireProvider>
     );
 
     expect(getByRole("img").getAttribute("src")).toBe(
-      "https://cdn.imgwire.dev/example.jpg?width=400"
+      "https://cdn.imgwire.dev/example?width=400"
     );
   });
 
   it("uses the default loader for ids and caches the result", async () => {
     fetchImage.mockResolvedValue({
-      cdn_url: "https://cdn.imgwire.dev/cached.jpg"
+      cdn_url: "https://cdn.imgwire.dev/cached"
     });
 
     const view = render(
@@ -75,7 +75,7 @@ describe("<Image />", () => {
     );
 
     expect((await view.findByRole("img")).getAttribute("src")).toBe(
-      "https://cdn.imgwire.dev/cached.jpg"
+      "https://cdn.imgwire.dev/cached"
     );
 
     view.rerender(
@@ -89,7 +89,7 @@ describe("<Image />", () => {
 
   it("uses a custom loader when provided", async () => {
     const loader = vi.fn().mockResolvedValue({
-      url: "https://cdn.imgwire.dev/from-loader.jpg"
+      url: "https://cdn.imgwire.dev/from-loader"
     });
 
     const view = render(
@@ -99,7 +99,7 @@ describe("<Image />", () => {
     );
 
     expect((await view.findByRole("img")).getAttribute("src")).toBe(
-      "https://cdn.imgwire.dev/from-loader.jpg"
+      "https://cdn.imgwire.dev/from-loader"
     );
     expect(loader).toHaveBeenCalledWith("img_123");
     expect(fetchImage).not.toHaveBeenCalled();

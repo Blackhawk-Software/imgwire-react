@@ -32,7 +32,7 @@ const meta = {
   args: {
     apiKey: "ck_storybook",
     environment: "production",
-    url: "https://cdn.conveyer.dev/5f81fbbb-e95b-4b2d-96d6-73e501d5ce64.png",
+    url: "https://cdn.conveyer.dev/5f81fbbb-e95b-4b2d-96d6-73e501d5ce64",
     alt: "Responsive example",
     style: {
       display: "block",

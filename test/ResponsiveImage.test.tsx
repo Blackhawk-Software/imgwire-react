@@ -48,7 +48,7 @@ describe("<ResponsiveImage />", () => {
       <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
         <ResponsiveImage
           alt="Responsive"
-          url="https://cdn.imgwire.dev/example.jpg"
+          url="https://cdn.imgwire.dev/example"
           breakpoints={{
             sm: { minWidth: 0, width: 320 },
             lg: { minWidth: 1024, width: 1024, dpr: [1, 2] }
@@ -62,10 +62,10 @@ describe("<ResponsiveImage />", () => {
       "(min-width: 1024px) 1024px, 320px"
     );
     expect(image.getAttribute("srcset")).toContain(
-      "https://cdn.imgwire.dev/example.jpg?width=320&dpr=1 320w"
+      "https://cdn.imgwire.dev/example?width=320&dpr=1 320w"
     );
     expect(image.getAttribute("srcset")).toContain(
-      "https://cdn.imgwire.dev/example.jpg?width=1024&dpr=2 2048w"
+      "https://cdn.imgwire.dev/example?width=1024&dpr=2 2048w"
     );
   });
 
@@ -74,14 +74,14 @@ describe("<ResponsiveImage />", () => {
       <ImgwireProvider config={{ apiKey: "ck_test", fetch }}>
         <ResponsiveImage
           alt="Responsive"
-          url="https://cdn.imgwire.dev/example.jpg"
+          url="https://cdn.imgwire.dev/example"
         />
       </ImgwireProvider>
     );
 
     const image = getByRole("img");
     expect(image.getAttribute("src")).toBe(
-      "https://cdn.imgwire.dev/example.jpg?width=320&dpr=1"
+      "https://cdn.imgwire.dev/example?width=320&dpr=1"
     );
     expect(image.getAttribute("sizes")).toBe(
       "(min-width: 1440px) 1440px, (min-width: 1024px) 1024px, (min-width: 640px) 640px, 320px"
