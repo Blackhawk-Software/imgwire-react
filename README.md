@@ -127,7 +127,7 @@ You can render from a known CDN URL:
 
 ```tsx
 <Image
-  url="https://cdn.imgwire.dev/example.jpg"
+  url="https://cdn.imgwire.dev/example"
   width={800}
   format="webp"
   quality={80}
